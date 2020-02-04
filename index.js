@@ -7,6 +7,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/auth', require('./controllers/auth'));
+app.use('/dummy', require('./controllers/dummy'));
 
 app.use(require('./middlewares/error-handler'));
 
