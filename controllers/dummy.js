@@ -5,27 +5,27 @@ const Todo = db.todo;
 
 router.use(require('../middlewares/validator'));
 
-router.get("/", async (req,res,next)=>{
+router.get('/', async (req,res,next)=>{
     try {
         return res.send(
             await Todo.findAll()
         );
     } catch(err){
-        next(err)
+        next(err);
     }
 });
 
-router.post("/", async (req, res, next)=>{
+router.post('/', async (req, res, next)=>{
     try {
         return res.status(201).json(
             await Todo.create({title: req.body.title})
         );
     } catch(err) {
-        next(err)
+        next(err);
     }
 });
 
-router.get("/:id", (req,res,next)=>{
+router.get('/:id', (req,res,next)=>{
     try {
         Todo.findOne({where:{id:req.params.id}})
             .then(todo => 
@@ -35,38 +35,38 @@ router.get("/:id", (req,res,next)=>{
                 throw err;
             });
     } catch(err) {
-        next(err)
-    }
-})
-
-router.put("/:id", (req, res, next)=>{
-    try {
-        Todo.findOne({where:{id:req.params.id}})
-            .then(todo => {
-                todo.title = req.body.title
-                todo.save()
-            })
-            .then(()=>res.status(204).send())
-            .catch(err=>{
-                throw err;
-            });
-    } catch(err) {
-        next(err)
+        next(err);
     }
 });
 
-router.delete("/:id", (req, res, next)=>{
+router.put('/:id', (req, res, next)=>{
     try {
         Todo.findOne({where:{id:req.params.id}})
             .then(todo => {
-                todo.destroy()
+                todo.title = req.body.title;
+                todo.save();
             })
             .then(()=>res.status(204).send())
             .catch(err=>{
                 throw err;
             });
     } catch(err) {
-        next(err)
+        next(err);
+    }
+});
+
+router.delete('/:id', (req, res, next)=>{
+    try {
+        Todo.findOne({where:{id:req.params.id}})
+            .then(todo => {
+                todo.destroy();
+            })
+            .then(()=>res.status(204).send())
+            .catch(err=>{
+                throw err;
+            });
+    } catch(err) {
+        next(err);
     }
 });
 
