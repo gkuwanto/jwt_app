@@ -10,8 +10,8 @@ app.use('/auth', require('./controllers/auth'));
 
 app.use(require('./middlewares/error-handler'));
 
-app.all("*", (req,res)=>{
-    return res.status(404).send({msg:"page not found"})
+app.all('*', (req,res)=>{
+    return res.status(404).send({msg:'page not found'});
 });
 
 app.listen(PORT, ()=>{

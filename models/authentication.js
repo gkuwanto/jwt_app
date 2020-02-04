@@ -8,8 +8,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: DataTypes.STRING
   }, {});
-  authentication.associate = function(models) {
+  authentication.associate = function() {
     // associations can be defined here
   };
+
   return authentication;
 };
