@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  server1:
+    container_name: server1
+    build: .
+    links:
+      - mysql
+    env_file:
+      - .env
+  server2:
+    container_name: server2
+    build: .
+    links:
+      - mysql
+    env_file:
+      - .env
+  server3:
+    container_name: server3
+    build: .
+    links:
+      - mysql
+    env_file:
+      - .env
+  mysql:
+    container_name: mysql
+    env_file:
+      - .env
+    image: mysql
+
+  nginx:
+    build: ./nginx
+    tty: true
+    links:
+        - server1
+        - server2
+        - server3
+    ports:
+        - '8080:8080'

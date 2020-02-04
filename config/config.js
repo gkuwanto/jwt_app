@@ -4,16 +4,14 @@ module.exports = {
     'password': process.env.MYSQL_DEFAULT_PASSWORD,
     'database': process.env.MYSQL_DATABASE,
     'host': process.env.MYSQL_DEFAULT_HOST || 'localhost',
-    'dialect': 'mysql',
-    'operatorsAliases': false
+    'dialect': 'mysql'
   },
   'test': {
     'username': process.env.MYSQL_DEFAULT_USER,
     'password': process.env.MYSQL_DEFAULT_PASSWORD,
     'database': process.env.MYSQL_DATABASE,
     'host': process.env.MYSQL_DEFAULT_HOST || 'localhost',
-    'dialect': 'mysql',
-    'operatorsAliases': false
+    'dialect': 'mysql'
   },
   'production': {
     'username': process.env.MYSQL_DEFAULT_USER,
@@ -21,7 +19,6 @@ module.exports = {
     'database': process.env.MYSQL_DATABASE,
     'host': process.env.MYSQL_DEFAULT_HOST || 'localhost',
     'dialect': 'mysql',
-    'operatorsAliases': false,
     'logging':false
   }
 };
