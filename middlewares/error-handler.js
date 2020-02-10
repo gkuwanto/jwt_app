@@ -5,7 +5,7 @@ module.exports = (err, req, res, next) => {
 
         return res
             .status(err.httpStatus)
-            .json({ message: err.message, details: err.details });
+            .send({ message: err.message, details: err.details });
     } catch (err) {
         next(err);
     }

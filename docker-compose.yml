@@ -5,6 +5,8 @@ services:
     build: .
     links:
       - mysql
+    depends_on:
+      - mysql
     env_file:
       - .env
   server2:
@@ -12,33 +14,37 @@ services:
     build: .
     links:
       - mysql
-    env_file:
-      - .env
-  server3:
-    container_name: server3
-    build: .
-    links:
+    depends_on:
       - mysql
     env_file:
       - .env
+
   mysql:
     container_name: mysql
     env_file:
       - .env
     image: mysql
+    ports:
+      - 3306:3306
 
   migrator:
-    container_name: migrator
+    image: server1:latest
+    command: ["./wait-for-it/wait-for-it.sh", "mysql:3306", "--", "npm", "run", "migrate"]
     env_file:
       - .env
-    build: ./migrator
+    links:
+      - mysql
+    depends_on:
+      - mysql
 
   nginx:
     build: ./nginx
     tty: true
     links:
-        - server1
-        - server2
-        - server3
+      - server1
+      - server2
+    depends_on:
+      - server1
+      - server2
     ports:
         - '8080:80'

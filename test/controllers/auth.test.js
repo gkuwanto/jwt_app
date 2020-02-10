@@ -1,12 +1,13 @@
 const chai = require('chai');
 const expect = chai.expect;
 const sinon = require('sinon');
-const app = require('../../index');
 const request = require('supertest');
-const db = require('../../models/index');
-const User = db.authentication;
+
 const bcrypt = require('bcryptjs');
 
+const db = require('../../models/index');
+const User = db.authentication;
+const app = require('../../index');
 
 describe('user authentication', ()=>{
     describe('registration', ()=>{

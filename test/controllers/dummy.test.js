@@ -71,7 +71,7 @@ describe('dummy CRUD', ()=>{
             const res = await request(app)
                 .get('/dummy/1')
                 .set('x-access-token',jwttoken);
-            expect(todoStubFindOne.calledWith({where:{id:1}}))
+            expect(todoStubFindOne.calledWith({where:{id:1}}));
             expect(res.body).ownProperty('title');
             expect(res.body).ownProperty('id');
         });
@@ -87,7 +87,7 @@ describe('dummy CRUD', ()=>{
         let jwttoken = '';
         let spy = null;
         before(()=>{
-            spy = sinon.spy()
+            spy = sinon.spy();
             const promise = new Promise((resolve)=>{
                 setTimeout(() => resolve({id:1, title:'AA', save:spy}), 100);
             });
@@ -102,15 +102,15 @@ describe('dummy CRUD', ()=>{
             const res = await request(app)
                 .put('/dummy/1')
                 .set('x-access-token',jwttoken)
-                .send({title:"BB"});
-            expect(spy.calledOnce,'save function').to.be.true
+                .send({title:'BB'});
+            expect(spy.calledOnce,'save function').to.be.true;
             expect(res.status).to.eq(204);
         });
         it('should reject wrong token', async ()=>{
             const res = await request(app)
                 .put('/dummy')
                 .set('x-access-token', 'WRONG')
-                .send({title:"BB"});;
+                .send({title:'BB'});
             expect(res.status).to.eq(401);
         });
     });
@@ -119,7 +119,7 @@ describe('dummy CRUD', ()=>{
         let jwttoken = '';
         let spy = null;
         before(()=>{
-            spy = sinon.spy()
+            spy = sinon.spy();
             const promise = new Promise((resolve)=>{
                 setTimeout(() => resolve({id:1, title:'AA', destroy:spy}), 100);
             });
@@ -134,7 +134,7 @@ describe('dummy CRUD', ()=>{
             const res = await request(app)
                 .delete('/dummy/1')
                 .set('x-access-token',jwttoken);
-            expect(spy.calledOnce,'destroy function').to.be.true
+            expect(spy.calledOnce,'destroy function').to.be.true;
             expect(res.status).to.eq(204);
         });
         it('should reject wrong token', async ()=>{
