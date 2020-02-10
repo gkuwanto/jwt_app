@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models/index');
 const Todo = db.todo;
+const assert = require('assert');
 
 router.use(require('../middlewares/validator'));
 
@@ -17,6 +18,8 @@ router.get('/', async (req,res,next)=>{
 
 router.post('/', async (req, res, next)=>{
     try {
+        assert(req.body.title);
+
         return res.status(201).json(
             await Todo.create({title: req.body.title})
         );
@@ -65,6 +68,29 @@ router.delete('/:id', (req, res, next)=>{
             .catch(err=>{
                 throw err;
             });
+    } catch(err) {
+        next(err);
+    }
+});
+
+router.post('/transaction_demo', (req, res, next) => {
+    try {
+        assert(req.body.title);
+
+        return db.sequelize.transaction(t=>{
+            return Todo.create(
+                {title: req.body.title},
+                {transaction: t}
+            ).then(todo=>{
+                const id = todo.id;
+                const title = todo.title;
+
+                return todo.update(
+                    {title:id+'-'+title},
+                    {transaction: t}
+                );
+            }).then((result)=>res.status(201).send(result));
+        });
     } catch(err) {
         next(err);
     }

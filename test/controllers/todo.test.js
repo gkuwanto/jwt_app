@@ -144,4 +144,35 @@ describe('Todo CRUD', ()=>{
             expect(res.status).to.eq(401);
         });
     });
+    describe('transaction-demo', ()=>{
+        let todoStub = null;
+        let jwttoken = '';
+        let spy = null;
+        before(()=>{
+            spy = sinon.spy();
+            const promise = new Promise((resolve)=>{
+                setTimeout(() => resolve({id:1, title:'AA', update: spy}), 100);
+            });
+            todoStub = sinon.stub(Todo, 'create')
+                .returns(promise);
+            jwttoken = jwt.sign({ id: 1 }, config.secret_key);
+        });
+        after(()=>{
+            todoStub.restore();
+        });
+        it('should create todo list', async ()=>{
+            const res = await request(app)
+                .post('/todo/transaction_demo')
+                .set('x-access-token',jwttoken)
+                .send({title:'AA'});
+            expect(res.status).to.eq(201);
+            expect(spy.calledOnce).to.be.true;
+        });
+        it('should reject wrong token', async ()=>{
+            const res = await request(app)
+                .post('/todo/transaction_demo')
+                .set('x-access-token', 'WRONG');
+            expect(res.status).to.eq(401);
+        });
+    });
 });
