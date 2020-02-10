@@ -21,3 +21,5 @@ app.listen(PORT, ()=>{
     console.log(`Started at ${new Date().toUTCString()}`);
     /* eslint-enable no-console */
 });
+
+module.exports = app;

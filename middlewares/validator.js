@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const config = require('../config');
 
 module.exports = (req, res, next) => {
     const token = req.headers['x-access-token'];
@@ -10,9 +11,9 @@ module.exports = (req, res, next) => {
                 message: 'No token provided.' 
             });
     }
-    jwt.verify(token, process.env.SECRET_KEY, function(err) {
+    jwt.verify(token, config.secret_key, function(err) {
         if (err) {
-            return res.status(500)
+            return res.status(401)
                 .send({ 
                     auth: false, 
                     message: 'Failed to authenticate token.' 

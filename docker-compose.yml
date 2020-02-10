@@ -27,6 +27,12 @@ services:
       - .env
     image: mysql
 
+  migrator:
+    container_name: migrator
+    env_file:
+      - .env
+    build: ./migrator
+
   nginx:
     build: ./nginx
     tty: true
@@ -35,4 +41,4 @@ services:
         - server2
         - server3
     ports:
-        - '8080:8080'
+        - '8080:80'
