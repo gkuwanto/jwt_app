@@ -10,7 +10,7 @@ const db = require('../../models/index');
 const Todo = db.todo;
 const app = require('../../index');
 
-describe('dummy CRUD', ()=>{
+describe('Todo CRUD', ()=>{
     describe('creation', ()=>{
         let todoStub = null;
         let jwttoken = '';
@@ -27,14 +27,14 @@ describe('dummy CRUD', ()=>{
         });
         it('should create todo list', async ()=>{
             const res = await request(app)
-                .post('/dummy')
+                .post('/todo')
                 .set('x-access-token',jwttoken)
                 .send({title:'AA'});
             expect(res.status).to.eq(201);
         });
         it('should reject wrong token', async ()=>{
             const res = await request(app)
-                .post('/dummy')
+                .post('/todo')
                 .set('x-access-token', 'WRONG');
             expect(res.status).to.eq(401);
         });
@@ -62,14 +62,14 @@ describe('dummy CRUD', ()=>{
         });
         it('should get all todo list', async ()=>{
             const res = await request(app)
-                .get('/dummy')
+                .get('/todo')
                 .set('x-access-token',jwttoken);
             expect(res.body[0]).ownProperty('title');
             expect(res.body[0]).ownProperty('id');
         });
         it('should get specific todo list', async ()=>{
             const res = await request(app)
-                .get('/dummy/1')
+                .get('/todo/1')
                 .set('x-access-token',jwttoken);
             expect(todoStubFindOne.calledWith({where:{id:1}}));
             expect(res.body).ownProperty('title');
@@ -77,7 +77,7 @@ describe('dummy CRUD', ()=>{
         });
         it('should reject wrong token', async ()=>{
             const res = await request(app)
-                .get('/dummy')
+                .get('/todo/1')
                 .set('x-access-token', 'WRONG');
             expect(res.status).to.eq(401);
         });
@@ -100,7 +100,7 @@ describe('dummy CRUD', ()=>{
         });
         it('should get specific todo list', async ()=>{
             const res = await request(app)
-                .put('/dummy/1')
+                .put('/todo/1')
                 .set('x-access-token',jwttoken)
                 .send({title:'BB'});
             expect(spy.calledOnce,'save function').to.be.true;
@@ -108,7 +108,7 @@ describe('dummy CRUD', ()=>{
         });
         it('should reject wrong token', async ()=>{
             const res = await request(app)
-                .put('/dummy')
+                .put('/todo/1')
                 .set('x-access-token', 'WRONG')
                 .send({title:'BB'});
             expect(res.status).to.eq(401);
@@ -132,14 +132,14 @@ describe('dummy CRUD', ()=>{
         });
         it('should get specific todo list', async ()=>{
             const res = await request(app)
-                .delete('/dummy/1')
+                .delete('/todo/1')
                 .set('x-access-token',jwttoken);
             expect(spy.calledOnce,'destroy function').to.be.true;
             expect(res.status).to.eq(204);
         });
         it('should reject wrong token', async ()=>{
             const res = await request(app)
-                .delete('/dummy')
+                .delete('/todo/1')
                 .set('x-access-token', 'WRONG');
             expect(res.status).to.eq(401);
         });
